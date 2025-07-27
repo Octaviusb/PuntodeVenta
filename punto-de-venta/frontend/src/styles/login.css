@@ -1,0 +1,83 @@
+/* Estilos específicos para la página de login */
+.login-page {
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-logo {
+  max-width: 120px;
+  margin-bottom: 20px;
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-width: 450px;
+  width: 100%;
+  padding: 0;
+}
+
+.login-header {
+  background: linear-gradient(to right, #3498db, #2980b9);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-body {
+  padding: 30px;
+}
+
+.login-footer {
+  background-color: #f8f9fa;
+  padding: 15px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.login-input {
+  border-radius: 50px;
+  padding: 12px 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  transition: all 0.3s;
+}
+
+.login-input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+  border-color: #3498db;
+}
+
+.login-button {
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #3498db, #2980b9);
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to right, #2980b9, #2c3e50);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-icon {
+  color: #3498db;
+  font-size: 1.2rem;
+}

@@ -1,0 +1,220 @@
+/* Estilos generales */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos para el login */
+.login-container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-container input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+  border-color: #3498db;
+}
+
+.login-container .btn-primary:hover {
+  background-color: #2980b9 !important;
+  border-color: #2980b9 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para el sidebar */
+.sidebar {
+  background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
+  min-height: 100vh;
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+  color: #fff;
+  background-color: #3498db;
+}
+
+/* Estilos para las tarjetas */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+}
+
+/* Estilos para botones */
+.btn {
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.btn-success:hover {
+  background-color: #27ae60;
+  border-color: #27ae60;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Estilos para tablas */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Estilos para formularios */
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+  border-color: #3498db;
+}
+
+/* Estilos para notificaciones toast */
+.Toastify__toast {
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.Toastify__toast--success {
+  background-color: #2ecc71;
+}
+
+.Toastify__toast--error {
+  background-color: #e74c3c;
+}
+
+.Toastify__toast--info {
+  background-color: #3498db;
+}
+
+.Toastify__toast--warning {
+  background-color: #f39c12;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .table thead th, 
+  .table tbody td {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 0.375rem 0.5rem;
+  }
+}
+
+/* Additional responsive fixes for Suppliers page */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .table {
+    min-width: 600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .card {
+    overflow-x: auto;
+  }
+}
+
+/* Center login form */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
