@@ -29,7 +29,10 @@
   },
   "devDependencies": {
     "eslint": "^7.14.0",
-    "eslint-plugin-react": "^7.27.0"
+    "eslint-plugin-react": "^7.27.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^14.2.0"
   },
   "homepage": ".",
   "license": "MIT",

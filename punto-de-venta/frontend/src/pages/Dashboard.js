@@ -155,7 +155,7 @@ function Dashboard() {
             window.location.href = '/login';
           }
         } else {
-          setError('Error al cargar los datos del dashboard');
+          setError('Error al cargar los datos del dashboard: ' + (err.response?.data?.message || err.message));
         }
       } finally {
         setLoading(false);

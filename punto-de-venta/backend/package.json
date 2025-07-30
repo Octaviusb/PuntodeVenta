@@ -7,7 +7,8 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "init-db": "node src/scripts/initDB.js",
-    "create-admin": "node src/scripts/createAdmin.js"
+    "create-admin": "node src/scripts/createAdmin.js",
+    "test": "mocha test/**/*.test.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -26,7 +27,10 @@
   },
   "devDependencies": {
     "mocha": "^11.7.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "sinon": "^11.1.2"
   },
   "author": "Your Name",
   "license": "MIT"

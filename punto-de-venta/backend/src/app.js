@@ -31,20 +31,50 @@ if (!process.env.JWT_SECRET) {
     console.warn('ADVERTENCIA: JWT_SECRET no está definido en el archivo .env. Se ha generado una clave aleatoria temporal.');
 }
 
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('Conectado a MongoDB'))
-.catch(err => console.error('Error al conectar a MongoDB:', err));
+// Conexión a MongoDB con manejo de errores mejorado
+let mongoConnected = false;
+
+// Only try to connect to MongoDB if MONGODB_URI is defined
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('Conectado a MongoDB');
+        mongoConnected = true;
+    })
+    .catch(err => {
+        console.error('Error al conectar a MongoDB:', err);
+        console.log('Continuando sin conexión a MongoDB. Algunas funciones pueden no estar disponibles.');
+        mongoConnected = false;
+    });
+} else {
+    console.log('MONGODB_URI no está definido. Continuando sin conexión a MongoDB.');
+    mongoConnected = false;
+}
+
+// Middleware para verificar conexión a MongoDB
+const checkMongoDB = (req, res, next) => {
+    // Allow dashboard routes to proceed even without MongoDB connection
+    // The dashboard controller already handles MongoDB unavailability
+    if (!mongoConnected && req.path.includes('/users')) {
+        return res.status(500).json({ 
+            message: 'Servicio temporalmente no disponible: Error de conexión a la base de datos' 
+        });
+    }
+    next();
+};
+
+// Aplicar middleware de verificación de MongoDB
+app.use(checkMongoDB);
 
 // Middleware - IMPORTANTE: CORS debe ir antes de definir rutas
 
 // Configuración CORS más segura y optimizada
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://tudominio.com'] // En producción, limitar a dominios específicos
+        ? 'https://puntode-venta-six.vercel.app' // En producción, limitar a dominios específicos
         : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3000'], // En desarrollo
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
@@ -55,14 +85,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-// Middleware para manejar OPTIONS preflight
-app.use((req, res, next) => {
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-    next();
-});
 
 // Middleware de seguridad
 app.use(helmet()); // Cabeceras HTTP seguras
@@ -96,6 +118,14 @@ app.get('/', (req, res) => {
 // Endpoint de prueba
 app.get('/api/test', (req, res) => {
     res.json({ message: 'Conexión exitosa con el backend', timestamp: new Date() });
+});
+
+// Test route to check MongoDB connection status
+app.get('/api/test-db-status', (req, res) => {
+    res.json({ 
+        mongoConnected: mongoConnected,
+        message: mongoConnected ? 'Conectado a MongoDB' : 'No conectado a MongoDB'
+    });
 });
 
 // Middleware de autenticación global

@@ -1,5 +1,13 @@
+// Try to import User model, but handle case where MongoDB is not connected
+let User;
+try {
+    User = require('../models/users');
+} catch (error) {
+    console.log('No se pudo cargar el modelo de usuarios:', error.message);
+    User = null;
+}
+
 const jwt = require('jsonwebtoken');
-const User = require('../models/users');
 
 module.exports = async (req, res, next) => {
     // Verificar si la ruta requiere autenticación
@@ -17,6 +25,7 @@ module.exports = async (req, res, next) => {
     if (isPublicRoute) {
         return next();
     }
+    
     try {
         // Obtener el token del header
         const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -27,6 +36,12 @@ module.exports = async (req, res, next) => {
 
         // Verificar el token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // Si no hay conexión a MongoDB, permitir acceso con token válido
+        if (User === null) {
+            req.user = { id: decoded.id }; // Usuario simulado
+            return next();
+        }
         
         // Buscar el usuario
         const user = await User.findById(decoded.id).select('-password');
@@ -45,6 +60,21 @@ module.exports = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Error de autenticación:', error.message);
+        // If MongoDB is not connected, still allow access with valid token
+        if (error.name === 'MongoNetworkError' || error.name === 'MongooseServerSelectionError' || User === null) {
+            // Try to decode token and allow access
+            try {
+                const token = req.header('Authorization')?.replace('Bearer ', '');
+                if (!token) {
+                    return res.status(401).json({ message: 'No hay token, autorización denegada' });
+                }
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                req.user = { id: decoded.id }; // Usuario simulado
+                return next();
+            } catch (jwtError) {
+                return res.status(401).json({ message: 'Token no válido' });
+            }
+        }
         res.status(401).json({ message: 'Token no válido' });
     }
 };
