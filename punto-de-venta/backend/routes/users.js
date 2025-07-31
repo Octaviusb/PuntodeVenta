@@ -59,4 +59,36 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Iniciar sesión
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM usuarios WHERE email = $1 AND password = $2',
+      [email, password]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: 'Credenciales incorrectas' });
+    }
+
+    const user = result.rows[0];
+    res.json({
+      message: 'Login exitoso',
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol,
+        activo: user.activo
+      }
+    });
+  } catch (error) {
+    console.error('Error en login:', error);
+    res.status(500).json({ message: 'Error en el login' });
+  }
+});
+
+
 module.exports = router;
