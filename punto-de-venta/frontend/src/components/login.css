@@ -1,0 +1,16 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* altura completa de la ventana */
+  background-color: #f0f2f5;
+}
+
+.login-form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}

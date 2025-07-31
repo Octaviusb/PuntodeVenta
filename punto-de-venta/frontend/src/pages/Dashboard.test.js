@@ -1,6 +1,8 @@
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Dashboard from './Dashboard';
+import axios from 'axios';
 
 // Mock axios
 jest.mock('axios', () => ({
@@ -43,7 +45,6 @@ describe('Dashboard Component', () => {
 
   test('displays error message when API call fails', async () => {
     // Mock axios to throw an error
-    const axios = require('axios');
     axios.get.mockRejectedValue(new Error('Network error'));
 
     render(<Dashboard />);
@@ -56,7 +57,6 @@ describe('Dashboard Component', () => {
 
   test('displays dashboard data when API call succeeds', async () => {
     // Mock successful API responses
-    const axios = require('axios');
     axios.get
       .mockResolvedValueOnce({
         data: {
