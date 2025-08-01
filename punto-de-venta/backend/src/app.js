@@ -142,6 +142,14 @@ app.get('/api/test-db-status', (req, res) => {
     });
 });
 
+// Test dashboard endpoint
+app.get('/api/dashboard/test', (req, res) => {
+    res.json({ 
+        message: 'Dashboard endpoint funcionando',
+        timestamp: new Date()
+    });
+});
+
 // Middleware de autenticación global
 const auth = require('./middleware/auth');
 
@@ -154,7 +162,6 @@ app.use('/api/categories', auth);
 app.use('/api/clients', auth);
 app.use('/api/suppliers', auth);
 app.use('/api/company', auth);
-app.use('/api/dashboard', auth);
 app.use('/api/users/profile', auth);
 
 // Routes - Colocadas después de la configuración de autenticación
