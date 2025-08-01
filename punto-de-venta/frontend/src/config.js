@@ -11,7 +11,8 @@ const config = {
     itemsPerPage: 10,
     dateFormat: 'DD/MM/YYYY',
     timeFormat: 'HH:mm',
-    currency: 'COP' // Puedes cambiarlo según tu país
+    currency: 'COP'
   }
 };
 
+export default config;
