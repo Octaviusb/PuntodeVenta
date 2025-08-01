@@ -124,7 +124,7 @@ function Dashboard() {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          timeout: config.connection.timeout
+          timeout: 10000
         });
         
         setSummary(summaryResponse.data);
@@ -134,7 +134,7 @@ function Dashboard() {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          timeout: config.connection.timeout
+          timeout: 10000
         });
         
         setSalesData(salesResponse.data);
@@ -144,7 +144,7 @@ function Dashboard() {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          timeout: config.connection.timeout
+          timeout: 10000
         });
         
         setTopProducts(productsResponse.data);

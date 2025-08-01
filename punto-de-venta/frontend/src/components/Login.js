@@ -31,7 +31,7 @@ function Login() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        timeout: config.connection.timeout
+        timeout: 10000
       });
 
       console.log('Respuesta del login:', response.data);

@@ -2,7 +2,7 @@ const config = {
   apiUrl: 'https://backend-puntoventa.onrender.com/api',
 
   connection: {
-    timeout: 10000, // Aumentar timeout para conexiones lentas
+    timeout: 10000,
     retryAttempts: 3,
     retryDelay: 2000
   },
@@ -14,4 +14,6 @@ const config = {
     currency: 'COP'
   }
 };
+
+export default config;
 
