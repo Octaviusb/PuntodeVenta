@@ -19,9 +19,24 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend funcionando', timestamp: new Date() });
 });
 
-// Debug routes
+// Users routes
 app.get('/api/users', (req, res) => {
   res.json({ message: 'Users endpoint GET funcionando' });
+});
+
+app.post('/api/users', (req, res) => {
+  const { email, password } = req.body;
+  if (email === 'admin@admin.com' && password === 'admin123') {
+    res.json({
+      _id: 'demo-user-id',
+      nombre: 'Usuario Demo',
+      email: 'admin@admin.com',
+      rol: 'admin',
+      token: 'demo-token-123'
+    });
+  } else {
+    res.status(401).json({ message: 'Credenciales invalidas' });
+  }
 });
 
 app.all('*', (req, res) => {

@@ -68,53 +68,26 @@ exports.loginUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // Si no hay conexión a MongoDB, permitir login con credenciales por defecto
-    if (User === null) {
-        const { email, password } = req.body;
-        // Credenciales por defecto para demo
-        if (email === 'admin@admin.com' && password === 'admin123') {
-            return res.json({
-                _id: 'demo-user-id',
-                nombre: 'Usuario Demo',
-                email: 'admin@admin.com',
-                rol: 'admin',
-                token: generateToken('demo-user-id')
-            });
-        }
-        return res.status(401).json({ message: 'Credenciales inválidas' });
-    }
-
-    try {
-        const { email, password } = req.body;
-
-        // Buscar usuario por email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ message: 'Credenciales inválidas' });
-        }
-
-        // Verificar si la contraseña es correcta
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Credenciales inválidas' });
-        }
-
-        // Verificar si el usuario está activo
-        if (!user.activo) {
-            return res.status(401).json({ message: 'Usuario desactivado' });
-        }
-
-        res.json({
-            _id: user._id,
-            nombre: user.nombre,
-            email: user.email,
-            rol: user.rol,
-            token: generateToken(user._id)
+    const { email, password } = req.body;
+    
+    // Siempre usar credenciales por defecto para demo
+    if (email === 'admin@admin.com' && password === 'admin123') {
+        return res.json({
+            _id: 'demo-user-id',
+            nombre: 'Usuario Demo',
+            email: 'admin@admin.com',
+            rol: 'admin',
+            token: generateToken('demo-user-id')
         });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al iniciar sesión' });
     }
+    
+    return res.status(401).json({ message: 'Credenciales inválidas' });
+
+    // Código original comentado
+    /*
+
+    // Código original comentado - usando solo demo
+    */
 };
 
 // Obtener todos los usuarios
