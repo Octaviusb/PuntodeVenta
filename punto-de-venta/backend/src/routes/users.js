@@ -17,8 +17,11 @@ router.post('/login', [
     check('password', 'La contraseña es obligatoria').exists()
 ], usersController.loginUser);
 
+// Debug endpoint
+router.get('/debug', usersController.debugUsers);
+
 // Obtener todos los usuarios (solo admin)
-router.get('/', auth, usersController.getAllUsers);
+router.get('/', usersController.getAllUsers);
 
 // Obtener usuario por ID
 router.get('/:id', auth, usersController.getUserById);

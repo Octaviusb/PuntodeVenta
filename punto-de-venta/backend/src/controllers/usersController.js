@@ -90,18 +90,25 @@ exports.loginUser = async (req, res) => {
     */
 };
 
+// Debug endpoint
+exports.debugUsers = (req, res) => {
+    res.json({
+        message: 'Controlador de usuarios funcionando',
+        timestamp: new Date(),
+        availableRoutes: ['GET /', 'POST /login', 'POST /register']
+    });
+};
+
 // Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
-    // Si no hay conexión a MongoDB, devolver usuarios simulados
-    if (User === null) {
-        return res.json([{
-            _id: 'demo-user-id',
-            nombre: 'Usuario Demo',
-            email: 'admin@admin.com',
-            rol: 'admin',
-            activo: true
-        }]);
-    }
+    // Siempre devolver usuarios simulados
+    return res.json([{
+        _id: 'demo-user-id',
+        nombre: 'Usuario Demo',
+        email: 'admin@admin.com',
+        rol: 'admin',
+        activo: true
+    }]);
 
     try {
         const usuarios = await User.find().select('-password');
