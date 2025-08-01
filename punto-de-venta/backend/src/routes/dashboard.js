@@ -1,83 +1,62 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
 
-// Controlador con datos simulados para demo
-const dashboardController = {
-    getSummary: (req, res) => {
-        try {
-            res.json({
-                message: 'Resumen del dashboard',
-                data: {
-                    salesSummary: {
-                        today: { count: 12, total: 4850.75 },
-                        week: { count: 87, total: 32450.50 },
-                        month: { count: 342, total: 128750.25 }
-                    },
-                    inventory: {
-                        totalProducts: 248,
-                        lowStock: 15,
-                        categories: 8
-                    },
-                    cashRegister: {
-                        currentBalance: 5280.50,
-                        todayMovements: { income: 4850.75, expense: 1200.00 }
-                    },
-                    recentActivity: [
-                        "Venta #1089 registrada por $450.75 - hace 5 minutos",
-                        "Producto 'Smartphone XYZ' actualizado - hace 15 minutos",
-                        "Compra a proveedor 'Distribuidora ABC' por $1200.00 - hace 1 hora",
-                        "Usuario 'Vendedor1' inició sesión - hace 2 horas",
-                        "Cierre de caja con balance $3250.25 - ayer"
-                    ]
-                }
-            });
-        } catch (error) {
-            console.error('Error en getSummary:', error);
-            res.status(500).json({ message: 'Error interno del servidor' });
+// Rutas simples sin controlador
+router.get('/summary', (req, res) => {
+    res.json({
+        message: 'Resumen del dashboard',
+        data: {
+            salesSummary: {
+                today: { count: 12, total: 4850.75 },
+                week: { count: 87, total: 32450.50 },
+                month: { count: 342, total: 128750.25 }
+            },
+            inventory: {
+                totalProducts: 248,
+                lowStock: 15,
+                categories: 8
+            },
+            cashRegister: {
+                currentBalance: 5280.50,
+                todayMovements: { income: 4850.75, expense: 1200.00 }
+            },
+            recentActivity: [
+                "Venta registrada por $450.75",
+                "Producto actualizado",
+                "Compra registrada por $1200.00",
+                "Usuario inicio sesion",
+                "Cierre de caja con balance $3250.25"
+            ]
         }
-    },
-    getTopProducts: (req, res) => {
-        try {
-            res.json({ 
-                message: 'Productos más vendidos',
-                data: [
-                    { nombre: 'Smartphone XYZ', cantidad: 42, total: 21000.00 },
-                    { nombre: 'Laptop Pro', cantidad: 18, total: 36000.00 },
-                    { nombre: 'Auriculares Bluetooth', cantidad: 65, total: 3250.00 },
-                    { nombre: 'Monitor 24"', cantidad: 24, total: 7200.00 },
-                    { nombre: 'Teclado Mecánico', cantidad: 30, total: 3000.00 }
-                ]
-            });
-        } catch (error) {
-            console.error('Error en getTopProducts:', error);
-            res.status(500).json({ message: 'Error interno del servidor' });
-        }
-    },
-    getSalesByPeriod: (req, res) => {
-        try {
-            res.json({ 
-                message: 'Ventas por período',
-                data: {
-                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
-                    datasets: [
-                        {
-                            label: 'Ventas diarias',
-                            data: [4500, 3800, 5200, 4900, 6100, 8500, 5800]
-                        }
-                    ]
-                }
-            });
-        } catch (error) {
-            console.error('Error en getSalesByPeriod:', error);
-            res.status(500).json({ message: 'Error interno del servidor' });
-        }
-    }
-};
+    });
+});
 
-// Rutas para el dashboard - temporalmente sin auth para debugging
-router.get('/summary', dashboardController.getSummary);
-router.get('/top-products', dashboardController.getTopProducts);
-router.get('/sales-by-period', dashboardController.getSalesByPeriod);
+router.get('/top-products', (req, res) => {
+    res.json({ 
+        message: 'Productos mas vendidos',
+        data: [
+            { nombre: 'Smartphone XYZ', cantidad: 42, total: 21000.00 },
+            { nombre: 'Laptop Pro', cantidad: 18, total: 36000.00 },
+            { nombre: 'Auriculares Bluetooth', cantidad: 65, total: 3250.00 },
+            { nombre: 'Monitor 24', cantidad: 24, total: 7200.00 },
+            { nombre: 'Teclado Mecanico', cantidad: 30, total: 3000.00 }
+        ]
+    });
+});
+
+router.get('/sales-by-period', (req, res) => {
+    res.json({ 
+        message: 'Ventas por periodo',
+        data: {
+            labels: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+            datasets: [
+                {
+                    label: 'Ventas diarias',
+                    data: [4500, 3800, 5200, 4900, 6100, 8500, 5800]
+                }
+            ]
+        }
+    });
+});
 
 module.exports = router;
