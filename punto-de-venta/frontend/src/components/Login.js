@@ -27,7 +27,7 @@ function Login() {
       if (email === 'admin@admin.com' && password === 'admin123') {
         const userData = {
           _id: 'demo-user-id',
-          nombre: 'Usuario Demo',
+          nombre: 'Administrador',
           email: 'admin@admin.com',
           rol: 'admin',
           token: 'demo-token-123'

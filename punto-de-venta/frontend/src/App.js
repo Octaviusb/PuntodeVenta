@@ -52,21 +52,21 @@ function App() {
             
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <Layout>
+                  <Layout user={JSON.parse(localStorage.getItem('user') || '{}')}>
                     <Dashboard />
                   </Layout>
                 </ProtectedRoute>
               } />
               
               {/* Rutas para todos los módulos */}
-              <Route path="/sales" element={<ProtectedRoute><Layout><Sales /></Layout></ProtectedRoute>} />
-              <Route path="/inventory" element={<ProtectedRoute><Layout><Inventory /></Layout></ProtectedRoute>} />
-              <Route path="/cash-register" element={<ProtectedRoute><Layout><CashRegister /></Layout></ProtectedRoute>} />
-              <Route path="/purchases" element={<ProtectedRoute><Layout><Purchases /></Layout></ProtectedRoute>} />
-              <Route path="/clients" element={<ProtectedRoute><Layout><Clients /></Layout></ProtectedRoute>} />
-              <Route path="/suppliers" element={<ProtectedRoute><Layout><Suppliers /></Layout></ProtectedRoute>} />
-              <Route path="/company" element={<ProtectedRoute><Layout><Company /></Layout></ProtectedRoute>} />
-              <Route path="/users" element={<ProtectedRoute><Layout><Users /></Layout></ProtectedRoute>} />
+              <Route path="/sales" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Sales /></Layout></ProtectedRoute>} />
+              <Route path="/inventory" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Inventory /></Layout></ProtectedRoute>} />
+              <Route path="/cash-register" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><CashRegister /></Layout></ProtectedRoute>} />
+              <Route path="/purchases" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Purchases /></Layout></ProtectedRoute>} />
+              <Route path="/clients" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Clients /></Layout></ProtectedRoute>} />
+              <Route path="/suppliers" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Suppliers /></Layout></ProtectedRoute>} />
+              <Route path="/company" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Company /></Layout></ProtectedRoute>} />
+              <Route path="/users" element={<ProtectedRoute><Layout user={JSON.parse(localStorage.getItem('user') || '{}')}><Users /></Layout></ProtectedRoute>} />
               
               <Route path="*" element={<NotFound />} />
             </Routes>
