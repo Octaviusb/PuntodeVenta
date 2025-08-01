@@ -120,7 +120,7 @@ function Dashboard() {
         const token = localStorage.getItem('token');
         
         // Obtener resumen del dashboard
-        const summaryResponse = await axios.get(`${config.apiUrl}/dashboard/summary`, {
+        const summaryResponse = await axios.get(`${config.apiUrl}/api/dashboard/summary`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
@@ -130,7 +130,7 @@ function Dashboard() {
         setSummary(summaryResponse.data);
         
         // Obtener datos de ventas por período
-        const salesResponse = await axios.get(`${config.apiUrl}/dashboard/sales-by-period`, {
+        const salesResponse = await axios.get(`${config.apiUrl}/api/dashboard/sales-by-period`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
@@ -140,7 +140,7 @@ function Dashboard() {
         setSalesData(salesResponse.data);
         
         // Obtener productos más vendidos
-        const productsResponse = await axios.get(`${config.apiUrl}/dashboard/top-products`, {
+        const productsResponse = await axios.get(`${config.apiUrl}/api/dashboard/top-products`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },

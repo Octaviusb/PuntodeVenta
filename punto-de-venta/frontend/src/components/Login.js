@@ -23,7 +23,7 @@ function Login() {
     try {
       console.log('Intentando login con:', { email, apiUrl: config.apiUrl });
       
-      const response = await axios.post(`${config.apiUrl}/users/login`, {
+      const response = await axios.post(`${config.apiUrl}/api/users`, {
         email,
         password
       }, {
