@@ -19,6 +19,27 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend funcionando', timestamp: new Date() });
 });
 
+// Debug routes
+app.get('/api/users', (req, res) => {
+  res.json({ message: 'Users endpoint GET funcionando' });
+});
+
+app.all('*', (req, res) => {
+  console.log('Ruta no encontrada:', req.method, req.path);
+  res.status(404).json({ 
+    error: 'Ruta no encontrada', 
+    method: req.method, 
+    path: req.path,
+    availableRoutes: [
+      'GET /',
+      'GET /api/test',
+      'GET /api/users',
+      'POST /api/users/login',
+      'GET /api/dashboard/summary'
+    ]
+  });
+});
+
 // Login endpoint
 app.post('/api/users/login', (req, res) => {
   console.log('Login request received:', req.body);
