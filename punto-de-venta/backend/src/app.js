@@ -142,11 +142,55 @@ app.get('/api/test-db-status', (req, res) => {
     });
 });
 
-// Test dashboard endpoint
-app.get('/api/dashboard/test', (req, res) => {
+// Dashboard endpoints directos
+app.get('/api/dashboard/summary', (req, res) => {
+    res.json({
+        message: 'Resumen del dashboard',
+        data: {
+            salesSummary: {
+                today: { count: 12, total: 4850.75 },
+                week: { count: 87, total: 32450.50 },
+                month: { count: 342, total: 128750.25 }
+            },
+            inventory: {
+                totalProducts: 248,
+                lowStock: 15,
+                categories: 8
+            },
+            cashRegister: {
+                currentBalance: 5280.50,
+                todayMovements: { income: 4850.75, expense: 1200.00 }
+            },
+            recentActivity: [
+                "Venta registrada por $450.75",
+                "Producto actualizado",
+                "Compra registrada por $1200.00"
+            ]
+        }
+    });
+});
+
+app.get('/api/dashboard/top-products', (req, res) => {
     res.json({ 
-        message: 'Dashboard endpoint funcionando',
-        timestamp: new Date()
+        message: 'Productos mas vendidos',
+        data: [
+            { nombre: 'Smartphone XYZ', cantidad: 42, total: 21000.00 },
+            { nombre: 'Laptop Pro', cantidad: 18, total: 36000.00 },
+            { nombre: 'Auriculares Bluetooth', cantidad: 65, total: 3250.00 }
+        ]
+    });
+});
+
+app.get('/api/dashboard/sales-by-period', (req, res) => {
+    res.json({ 
+        message: 'Ventas por periodo',
+        data: {
+            labels: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'],
+            datasets: [{
+                label: 'Ventas diarias',
+                data: [4500, 3800, 5200, 4900, 6100]
+            }]
+        }
     });
 });
 
@@ -174,7 +218,7 @@ app.use('/api/categories', categoriesRoutes);
 app.use('/api/clients', clientsRoutes);
 app.use('/api/suppliers', suppliersRoutes);
 app.use('/api/company', companyRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+// app.use('/api/dashboard', dashboardRoutes); // Comentado - usando endpoints directos
 
 // Start server
 app.listen(PORT, () => {
