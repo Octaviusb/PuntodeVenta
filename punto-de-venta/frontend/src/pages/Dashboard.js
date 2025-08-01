@@ -117,39 +117,62 @@ function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('token');
         
-        // Obtener resumen del dashboard
-        const summaryResponse = await axios.get(`${config.apiUrl}/api/dashboard/summary`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          timeout: 10000
-        });
+        // Datos simulados sin backend
+        const summaryData = {
+          message: 'Resumen del dashboard',
+          data: {
+            salesSummary: {
+              today: { count: 12, total: 4850.75 },
+              week: { count: 87, total: 32450.50 },
+              month: { count: 342, total: 128750.25 }
+            },
+            inventory: {
+              totalProducts: 248,
+              lowStock: 15,
+              categories: 8
+            },
+            cashRegister: {
+              currentBalance: 5280.50,
+              todayMovements: { income: 4850.75, expense: 1200.00 }
+            },
+            recentActivity: [
+              "Venta registrada por $450.75",
+              "Producto actualizado",
+              "Compra registrada por $1200.00",
+              "Usuario inició sesión",
+              "Cierre de caja"
+            ]
+          }
+        };
         
-        setSummary(summaryResponse.data);
+        const salesData = {
+          message: 'Ventas por período',
+          data: {
+            labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+            datasets: [{
+              label: 'Ventas diarias',
+              data: [4500, 3800, 5200, 4900, 6100, 8500, 5800]
+            }]
+          }
+        };
         
-        // Obtener datos de ventas por período
-        const salesResponse = await axios.get(`${config.apiUrl}/api/dashboard/sales-by-period`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          timeout: 10000
-        });
+        const productsData = {
+          message: 'Productos más vendidos',
+          data: [
+            { nombre: 'Smartphone XYZ', cantidad: 42, total: 21000.00 },
+            { nombre: 'Laptop Pro', cantidad: 18, total: 36000.00 },
+            { nombre: 'Auriculares Bluetooth', cantidad: 65, total: 3250.00 },
+            { nombre: 'Monitor 24"', cantidad: 24, total: 7200.00 },
+            { nombre: 'Teclado Mecánico', cantidad: 30, total: 3000.00 }
+          ]
+        };
         
-        setSalesData(salesResponse.data);
-        
-        // Obtener productos más vendidos
-        const productsResponse = await axios.get(`${config.apiUrl}/api/dashboard/top-products`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          timeout: 10000
-        });
-        
-        setTopProducts(productsResponse.data);
-        
+        setSummary(summaryData);
+        setSalesData(salesData);
+        setTopProducts(productsData);
         setError('');
+        
       } catch (err) {
         console.error('Error al cargar datos del dashboard:', err);
         
