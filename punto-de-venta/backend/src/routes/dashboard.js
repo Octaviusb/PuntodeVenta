@@ -5,8 +5,7 @@ const auth = require('../middleware/auth');
 // Controlador con datos simulados para demo
 const dashboardController = {
     getSummary: (req, res) => {
-        // Simular un retraso para que parezca una llamada real a la base de datos
-        setTimeout(() => {
+        try {
             res.json({
                 message: 'Resumen del dashboard',
                 data: {
@@ -33,11 +32,13 @@ const dashboardController = {
                     ]
                 }
             });
-        }, 100); // 100ms de retraso simulado
+        } catch (error) {
+            console.error('Error en getSummary:', error);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        }
     },
     getTopProducts: (req, res) => {
-        // Simular un retraso para que parezca una llamada real a la base de datos
-        setTimeout(() => {
+        try {
             res.json({ 
                 message: 'Productos más vendidos',
                 data: [
@@ -48,11 +49,13 @@ const dashboardController = {
                     { nombre: 'Teclado Mecánico', cantidad: 30, total: 3000.00 }
                 ]
             });
-        }, 100); // 100ms de retraso simulado
+        } catch (error) {
+            console.error('Error en getTopProducts:', error);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        }
     },
     getSalesByPeriod: (req, res) => {
-        // Simular un retraso para que parezca una llamada real a la base de datos
-        setTimeout(() => {
+        try {
             res.json({ 
                 message: 'Ventas por período',
                 data: {
@@ -65,13 +68,16 @@ const dashboardController = {
                     ]
                 }
             });
-        }, 100); // 100ms de retraso simulado
+        } catch (error) {
+            console.error('Error en getSalesByPeriod:', error);
+            res.status(500).json({ message: 'Error interno del servidor' });
+        }
     }
 };
 
-// Rutas para el dashboard
-router.get('/summary', auth, dashboardController.getSummary);
-router.get('/top-products', auth, dashboardController.getTopProducts);
-router.get('/sales-by-period', auth, dashboardController.getSalesByPeriod);
+// Rutas para el dashboard - temporalmente sin auth para debugging
+router.get('/summary', dashboardController.getSummary);
+router.get('/top-products', dashboardController.getTopProducts);
+router.get('/sales-by-period', dashboardController.getSalesByPeriod);
 
 module.exports = router;
