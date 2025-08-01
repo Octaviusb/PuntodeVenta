@@ -18,7 +18,7 @@ const categoriesRoutes = require('./routes/categories');
 const clientsRoutes = require('./routes/clients');
 const suppliersRoutes = require('./routes/suppliers');
 const companyRoutes = require('./routes/company');
-const dashboardRoutes = require('./routes/dashboard');
+// const dashboardRoutes = require('./routes/dashboard'); // Comentado - usando endpoints directos
 
 const app = express();
 const PORT = process.env.PORT || 7000;
