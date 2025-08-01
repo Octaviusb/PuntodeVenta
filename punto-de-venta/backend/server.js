@@ -19,8 +19,9 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend funcionando', timestamp: new Date() });
 });
 
-// Login endpoint simple
+// Login endpoint
 app.post('/api/users/login', (req, res) => {
+  console.log('Login request received:', req.body);
   const { email, password } = req.body;
   if (email === 'admin@admin.com' && password === 'admin123') {
     res.json({
@@ -33,6 +34,11 @@ app.post('/api/users/login', (req, res) => {
   } else {
     res.status(401).json({ message: 'Credenciales invalidas' });
   }
+});
+
+// Test login endpoint
+app.get('/api/users/test', (req, res) => {
+  res.json({ message: 'Users endpoint funcionando' });
 });
 
 // Dashboard endpoints
