@@ -3,14 +3,33 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem('token') || null;
-  });
+  useEffect(() => {
+    // Verificar si hay datos de usuario guardados al cargar la aplicación
+    const initializeAuth = () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        const storedToken = localStorage.getItem('token');
+        
+        if (storedUser && storedToken) {
+          setUser(JSON.parse(storedUser));
+          setToken(storedToken);
+        }
+      } catch (error) {
+        console.error('Error al cargar datos de autenticación:', error);
+        // Limpiar datos corruptos
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -28,18 +47,20 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  const login = (userData, token) => {
+  const login = (userData, userToken) => {
     setUser(userData);
-    setToken(token);
+    setToken(userToken);
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

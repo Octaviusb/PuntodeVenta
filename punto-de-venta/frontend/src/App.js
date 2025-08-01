@@ -24,6 +24,7 @@ import Company from './pages/Company';
 import Users from './pages/Users';
 import NotFound from './pages/NotFound';
 import Login from './components/Login';
+import ConnectionTest from './components/ConnectionTest';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -46,6 +47,7 @@ function App() {
           <Box sx={{ display: 'flex' }}>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/test-connection" element={<ConnectionTest />} />
               <Route path="/" element={<Navigate to="/dashboard" />} />
             
               <Route path="/dashboard" element={

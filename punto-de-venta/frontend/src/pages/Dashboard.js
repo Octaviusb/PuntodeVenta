@@ -123,7 +123,8 @@ function Dashboard() {
         const summaryResponse = await axios.get(`${config.apiUrl}/dashboard/summary`, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          timeout: config.connection.timeout
         });
         
         setSummary(summaryResponse.data);
@@ -132,7 +133,8 @@ function Dashboard() {
         const salesResponse = await axios.get(`${config.apiUrl}/dashboard/sales-by-period`, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          timeout: config.connection.timeout
         });
         
         setSalesData(salesResponse.data);
@@ -141,7 +143,8 @@ function Dashboard() {
         const productsResponse = await axios.get(`${config.apiUrl}/dashboard/top-products`, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          timeout: config.connection.timeout
         });
         
         setTopProducts(productsResponse.data);
@@ -149,13 +152,28 @@ function Dashboard() {
         setError('');
       } catch (err) {
         console.error('Error al cargar datos del dashboard:', err);
+        
         if (err.response && err.response.status === 401) {
-          // Evitar bucle infinito de redirección
+          // Token inválido o expirado
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
           if (window.location.pathname !== '/login') {
             window.location.href = '/login';
           }
         } else {
-          setError('Error al cargar los datos del dashboard: ' + (err.response?.data?.message || err.message));
+          let errorMessage = 'Error al cargar los datos del dashboard: ';
+          
+          if (err.code === 'ECONNABORTED') {
+            errorMessage += 'Tiempo de espera agotado';
+          } else if (err.response) {
+            errorMessage += err.response.data?.message || `Error del servidor (${err.response.status})`;
+          } else if (err.request) {
+            errorMessage += 'No se pudo conectar con el servidor';
+          } else {
+            errorMessage += err.message || 'Error desconocido';
+          }
+          
+          setError(errorMessage);
         }
       } finally {
         setLoading(false);

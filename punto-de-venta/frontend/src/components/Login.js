@@ -5,6 +5,7 @@ import config from '../config';
 // import { toast } from 'react-toastify';
 import '../styles/login.css';
 
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -20,6 +21,8 @@ function Login() {
     setMessage('');
 
     try {
+      console.log('Intentando login con:', { email, apiUrl: config.apiUrl });
+      
       const response = await axios.post(`${config.apiUrl}/users/login`, {
         email,
         password
@@ -27,23 +30,34 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        }
+        },
+        timeout: config.connection.timeout
       });
 
+      console.log('Respuesta del login:', response.data);
+      
       setMessage('Login exitoso');
-      // toast.success('Inicio de sesión exitoso');
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data));
       
-      // Redirigir al dashboard después de un breve retraso
-      setTimeout(() => {
-        navigate('/dashboard');
-        window.location.reload(); // Forzar recarga para actualizar el estado
-      }, 1000);
+      // Redirigir al dashboard inmediatamente
+      navigate('/dashboard');
+      
     } catch (err) {
-      const errorMsg = 'Error de login: ' + (err.response?.data?.message || err.message || 'Error desconocido');
+      console.error('Error completo de login:', err);
+      let errorMsg = 'Error de login: ';
+      
+      if (err.code === 'ECONNABORTED') {
+        errorMsg += 'Tiempo de espera agotado. Verifique su conexión.';
+      } else if (err.response) {
+        errorMsg += err.response.data?.message || `Error del servidor (${err.response.status})`;
+      } else if (err.request) {
+        errorMsg += 'No se pudo conectar con el servidor. Verifique la URL de la API.';
+      } else {
+        errorMsg += err.message || 'Error desconocido';
+      }
+      
       setError(errorMsg);
-      // toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -72,10 +72,22 @@ app.use(checkMongoDB);
 // Middleware - IMPORTANTE: CORS debe ir antes de definir rutas
 
 // Configuración CORS más segura y optimizada
+const getAllowedOrigins = () => {
+    if (process.env.NODE_ENV === 'production') {
+        const envOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+        return [
+            ...envOrigins,
+            'https://puntode-venta-six.vercel.app',
+            'https://puntoventa-six.vercel.app', 
+            'https://punto-venta-six.vercel.app',
+            /\.vercel\.app$/  // Permitir cualquier subdominio de vercel.app
+        ];
+    }
+    return ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3000'];
+};
+
 const corsOptions = {
-    origin: process.env.NODE_ENV === 'production' 
-        ? 'https://puntode-venta-six.vercel.app' // En producción, limitar a dominios específicos
-        : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3000'], // En desarrollo
+    origin: getAllowedOrigins(),
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
     credentials: true,
@@ -83,6 +95,8 @@ const corsOptions = {
     preflightContinue: false,
     optionsSuccessStatus: 204
 };
+
+console.log('CORS configurado para orígenes:', getAllowedOrigins());
 
 app.use(cors(corsOptions));
 
