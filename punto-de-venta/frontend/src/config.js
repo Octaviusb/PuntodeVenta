@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: 'https://backend-puntoventa.onrender.com/api',
+  apiUrl: 'http://localhost:9000/api',
 
   connection: {
     timeout: 5000,
@@ -15,4 +15,3 @@ const config = {
   }
 };
 
-export default config;
