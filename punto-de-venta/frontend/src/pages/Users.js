@@ -18,20 +18,24 @@ function Users() {
   // Obtener token del localStorage
   const getToken = () => localStorage.getItem('token');
 
-  // Cargar usuarios desde el backend
+  // Cargar usuarios simulados
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${config.apiUrl}/users`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`
-        }
-      });
-      setUsers(response.data);
+      
+      // Datos simulados de usuarios
+      const simulatedUsers = [
+        { _id: '1', nombre: 'Administrador', email: 'admin@admin.com', rol: 'admin', activo: true },
+        { _id: '2', nombre: 'Juan Pérez', email: 'juan@empresa.com', rol: 'vendedor', activo: true },
+        { _id: '3', nombre: 'María García', email: 'maria@empresa.com', rol: 'cajero', activo: true },
+        { _id: '4', nombre: 'Carlos López', email: 'carlos@empresa.com', rol: 'inventario', activo: true },
+        { _id: '5', nombre: 'Ana Martínez', email: 'ana@empresa.com', rol: 'vendedor', activo: false }
+      ];
+      
+      setUsers(simulatedUsers);
       setLoading(false);
     } catch (error) {
       console.error('Error al cargar usuarios:', error);
-      toast.error('Error al cargar la lista de usuarios');
       setLoading(false);
     }
   };
@@ -53,25 +57,25 @@ function Users() {
     
     try {
       if (editMode) {
-        // Actualizar usuario existente
-        await axios.put(`${config.apiUrl}/users/${formData._id}`, formData, {
-          headers: {
-            'Authorization': `Bearer ${getToken()}`
-          }
-        });
-        toast.success('Usuario actualizado correctamente');
+        // Actualizar usuario existente (simulado)
+        setUsers(users.map(user => 
+          user._id === formData._id 
+            ? { ...user, nombre: formData.nombre, email: formData.email, rol: formData.rol }
+            : user
+        ));
+        alert('Usuario actualizado correctamente');
       } else {
-        // Crear nuevo usuario
-        await axios.post(`${config.apiUrl}/users/register`, formData, {
-          headers: {
-            'Authorization': `Bearer ${getToken()}`
-          }
-        });
-        toast.success('Usuario creado correctamente');
+        // Crear nuevo usuario (simulado)
+        const newUser = {
+          _id: Date.now().toString(),
+          nombre: formData.nombre,
+          email: formData.email,
+          rol: formData.rol,
+          activo: true
+        };
+        setUsers([...users, newUser]);
+        alert('Usuario creado correctamente');
       }
-      
-      // Recargar la lista de usuarios
-      loadUsers();
       
       // Resetear el formulario
       setShowForm(false);
@@ -84,7 +88,7 @@ function Users() {
       });
     } catch (error) {
       console.error('Error:', error);
-      toast.error(error.response?.data?.message || 'Error al procesar la solicitud');
+      alert('Error al procesar la solicitud');
     }
   };
 
@@ -116,40 +120,29 @@ function Users() {
     setShowForm(true);
   };
 
-  // Función para activar/desactivar usuario
+  // Función para activar/desactivar usuario (simulado)
   const handleToggleActive = async (user) => {
     try {
-      await axios.put(`${config.apiUrl}/users/${user._id}`, 
-        { ...user, activo: !user.activo },
-        {
-          headers: {
-            'Authorization': `Bearer ${getToken()}`
-          }
-        }
-      );
-      toast.success(`Usuario ${!user.activo ? 'activado' : 'desactivado'} correctamente`);
-      loadUsers();
+      setUsers(users.map(u => 
+        u._id === user._id ? { ...u, activo: !u.activo } : u
+      ));
+      alert(`Usuario ${!user.activo ? 'activado' : 'desactivado'} correctamente`);
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Error al cambiar el estado del usuario');
+      alert('Error al cambiar el estado del usuario');
     }
   };
 
-  // Función para eliminar usuario
+  // Función para eliminar usuario (simulado)
   const handleDelete = async (userId) => {
     if (!window.confirm('¿Está seguro de eliminar este usuario?')) return;
     
     try {
-      await axios.delete(`${config.apiUrl}/users/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${getToken()}`
-        }
-      });
-      toast.success('Usuario eliminado correctamente');
-      loadUsers();
+      setUsers(users.filter(user => user._id !== userId));
+      alert('Usuario eliminado correctamente');
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Error al eliminar el usuario');
+      alert('Error al eliminar el usuario');
     }
   };
 
