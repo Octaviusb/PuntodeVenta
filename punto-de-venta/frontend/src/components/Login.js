@@ -24,11 +24,12 @@ function Login() {
       console.log('Intentando login con:', { email, apiUrl: config.apiUrl });
       
       // Login simulado sin backend
-      if (email === 'admin@admin.com' && password === 'admin123') {
+      if ((email === 'admin@admin.com' && password === 'admin123') || 
+          (email === 'obuitragocamelo@yaho.es' && password === 'Eneroctavio19447/*')) {
         const userData = {
-          _id: 'demo-user-id',
-          nombre: 'Administrador',
-          email: 'admin@admin.com',
+          _id: email === 'obuitragocamelo@yaho.es' ? 'admin-octavio' : 'demo-user-id',
+          nombre: email === 'obuitragocamelo@yaho.es' ? 'Octavio Buitrago' : 'Administrador',
+          email: email,
           rol: 'admin',
           token: 'demo-token-123'
         };
@@ -137,8 +138,9 @@ function Login() {
         
         <div className="login-footer">
           <p className="text-muted small mb-0">
-            Credenciales por defecto: <br/>
-            <strong>admin@admin.com / admin123</strong>
+            Credenciales disponibles: <br/>
+            <strong>admin@admin.com / admin123</strong><br/>
+            <strong>obuitragocamelo@yaho.es / Eneroctavio19447/*</strong>
           </p>
         </div>
       </div>

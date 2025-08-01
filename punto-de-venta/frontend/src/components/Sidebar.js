@@ -111,37 +111,36 @@ const Sidebar = ({ user }) => {
         ))}
       </List>
       <Divider />
-      {user?.rol === 'admin' && (
-        <List>
-          {adminItems.map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <ListItemButton
-                component={Link}
-                to={item.path}
-                selected={location.pathname === item.path}
-                sx={{
-                  '&.Mui-selected': {
-                    backgroundColor: theme.palette.secondary.main + '20',
-                    borderRight: `3px solid ${theme.palette.secondary.main}`,
-                    '&:hover': {
-                      backgroundColor: theme.palette.secondary.main + '30',
-                    },
+      {/* Debug: mostrar siempre la sección de admin */}
+      <List>
+        {adminItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              selected={location.pathname === item.path}
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: theme.palette.secondary.main + '20',
+                  borderRight: `3px solid ${theme.palette.secondary.main}`,
+                  '&:hover': {
+                    backgroundColor: theme.palette.secondary.main + '30',
                   },
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  color: location.pathname === item.path ? theme.palette.secondary.main : 'inherit',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    color: location.pathname === item.path ? theme.palette.secondary.main : 'inherit',
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      )}
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </>
   );
 
