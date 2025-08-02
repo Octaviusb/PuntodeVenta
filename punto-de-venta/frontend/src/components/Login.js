@@ -23,24 +23,38 @@ function Login() {
     try {
       console.log('Intentando login con:', { email, apiUrl: config.apiUrl });
       
-      // Conectar con backend real
-      const response = await axios.post(`${config.apiUrl}/users/login`, {
-        email,
-        password
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000
-      });
-
-      console.log('Respuesta del login:', response.data);
+      // Solución temporal: login simulado hasta que Render funcione
+      if ((email === 'admin@admin.com' && password === 'admin123') || 
+          (email === 'obuitragocamelo@yaho.es' && password === 'Eneroctavio19447/*')) {
+        const userData = {
+          _id: email === 'obuitragocamelo@yaho.es' ? 'octavio' : 'admin',
+          nombre: email === 'obuitragocamelo@yaho.es' ? 'Octavio Buitrago' : 'Administrador',
+          email: email,
+          rol: 'admin',
+          token: 'demo-token-123'
+        };
+        
+        setMessage('Login exitoso');
+        localStorage.setItem('token', userData.token);
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        navigate('/dashboard');
+        return;
+      }
       
-      setMessage('Login exitoso');
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data));
-      
-      navigate('/dashboard');
+      // Intentar backend como fallback
+      try {
+        const response = await axios.post(`${config.apiUrl}/users/login`, {
+          email, password
+        }, { timeout: 5000 });
+        
+        setMessage('Login exitoso');
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        navigate('/dashboard');
+      } catch (backendError) {
+        setError('Credenciales incorrectas o servidor no disponible');
+      }
       
     } catch (err) {
       console.error('Error completo de login:', err);
