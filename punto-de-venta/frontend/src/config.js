@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: 'https://backend-puntoventa.onrender.com',
+  apiUrl: 'https://backend-puntoventa.onrender.com/api',
 
   connection: {
     timeout: 10000,

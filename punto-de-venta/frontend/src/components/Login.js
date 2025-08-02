@@ -23,26 +23,24 @@ function Login() {
     try {
       console.log('Intentando login con:', { email, apiUrl: config.apiUrl });
       
-      // Login simulado sin backend
-      if ((email === 'admin@admin.com' && password === 'admin123') || 
-          (email === 'obuitragocamelo@yaho.es' && password === 'Eneroctavio19447/*')) {
-        const userData = {
-          _id: email === 'obuitragocamelo@yaho.es' ? 'admin-octavio' : 'demo-user-id',
-          nombre: email === 'obuitragocamelo@yaho.es' ? 'Octavio Buitrago' : 'Administrador',
-          email: email,
-          rol: 'admin',
-          token: 'demo-token-123'
-        };
-        
-        setMessage('Login exitoso');
-        localStorage.setItem('token', userData.token);
-        localStorage.setItem('user', JSON.stringify(userData));
-        
-        navigate('/dashboard');
-        return;
-      }
+      // Conectar con backend real
+      const response = await axios.post(`${config.apiUrl}/users/login`, {
+        email,
+        password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 10000
+      });
+
+      console.log('Respuesta del login:', response.data);
       
-      setError('Credenciales incorrectas. Use: admin@admin.com / admin123');
+      setMessage('Login exitoso');
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      
+      navigate('/dashboard');
       
     } catch (err) {
       console.error('Error completo de login:', err);

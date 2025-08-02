@@ -150,7 +150,7 @@ app.get('/api/inventory', (req, res) => {
 app.get('/api/users', (req, res) => {
   const users = [
     { _id: '1', nombre: 'Administrador', email: 'admin@admin.com', rol: 'admin', activo: true },
-    { _id: '2', nombre: 'Octavio Buitrago', email: 'obuitragocamelo@yaho.es', rol: 'admin', activo: true }
+    //{ _id: '2', nombre: 'Octavio Buitrago', email: 'obuitragocamelo@yaho.es', rol: 'admin', activo: true }
   ];
   res.json(users);
 });
