@@ -13,9 +13,21 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/puntoventa')
-  .then(() => console.log('MongoDB conectado'))
-  .catch(err => console.log('MongoDB error:', err));
+const connectDB = async () => {
+  try {
+    if (process.env.MONGODB_URI) {
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log('✅ MongoDB Atlas conectado');
+    } else {
+      console.log('⚠️ MONGODB_URI no configurado, usando datos simulados');
+    }
+  } catch (err) {
+    console.error('❌ MongoDB error:', err.message);
+    console.log('Continuando con datos simulados...');
+  }
+};
+
+connectDB();
 
 // User Schema
 const UserSchema = new mongoose.Schema({
@@ -86,7 +98,9 @@ app.post('/api/users/login', async (req, res) => {
 
 // Dashboard
 app.get('/api/dashboard/summary', (req, res) => {
-  res.json({
+  try {
+    console.log('Dashboard summary solicitado');
+    res.json({
     message: 'Resumen del dashboard',
     data: {
       salesSummary: {
@@ -110,6 +124,10 @@ app.get('/api/dashboard/summary', (req, res) => {
       ]
     }
   });
+  } catch (error) {
+    console.error('Error en dashboard summary:', error);
+    res.status(500).json({ message: 'Error interno', error: error.message });
+  }
 });
 
 app.get('/api/dashboard/top-products', (req, res) => {

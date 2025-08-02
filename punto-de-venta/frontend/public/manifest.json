@@ -1,0 +1,8 @@
+{
+  "short_name": "PuntoVenta",
+  "name": "Sistema Punto de Venta",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
