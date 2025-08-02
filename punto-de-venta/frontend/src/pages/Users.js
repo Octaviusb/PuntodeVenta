@@ -26,10 +26,11 @@ function Users() {
       // Datos simulados de usuarios
       const simulatedUsers = [
         { _id: '1', nombre: 'Administrador', email: 'admin@admin.com', rol: 'admin', activo: true },
-        { _id: '2', nombre: 'Juan Pérez', email: 'juan@empresa.com', rol: 'vendedor', activo: true },
-        { _id: '3', nombre: 'María García', email: 'maria@empresa.com', rol: 'cajero', activo: true },
-        { _id: '4', nombre: 'Carlos López', email: 'carlos@empresa.com', rol: 'inventario', activo: true },
-        { _id: '5', nombre: 'Ana Martínez', email: 'ana@empresa.com', rol: 'vendedor', activo: false }
+        { _id: '2', nombre: 'Octavio Buitrago', email: 'obuitragocamelo@yaho.es', rol: 'admin', activo: true },
+        { _id: '3', nombre: 'Juan Pérez', email: 'juan@empresa.com', rol: 'vendedor', activo: true },
+        { _id: '4', nombre: 'María García', email: 'maria@empresa.com', rol: 'cajero', activo: true },
+        { _id: '5', nombre: 'Carlos López', email: 'carlos@empresa.com', rol: 'inventario', activo: true },
+        { _id: '6', nombre: 'Ana Martínez', email: 'ana@empresa.com', rol: 'vendedor', activo: false }
       ];
       
       setUsers(simulatedUsers);

@@ -25,12 +25,19 @@ function Inventory() {
     try {
       setLoading(true);
       
-      // Conectar con backend real
-      const response = await axios.get(`${config.apiUrl}/inventory`, {
-        timeout: 10000
-      });
+      // Datos simulados del inventario
+      const simulatedProducts = [
+        { _id: '1', codigo: 'PROD001', nombre: 'Smartphone XYZ', categoria: 'Electrónicos', cantidad: 25, precio: 500.00 },
+        { _id: '2', codigo: 'PROD002', nombre: 'Laptop Pro', categoria: 'Computadoras', cantidad: 10, precio: 2000.00 },
+        { _id: '3', codigo: 'PROD003', nombre: 'Auriculares Bluetooth', categoria: 'Accesorios', cantidad: 50, precio: 50.00 },
+        { _id: '4', codigo: 'PROD004', nombre: 'Monitor 24"', categoria: 'Computadoras', cantidad: 15, precio: 300.00 },
+        { _id: '5', codigo: 'PROD005', nombre: 'Teclado Mecánico', categoria: 'Accesorios', cantidad: 30, precio: 100.00 },
+        { _id: '6', codigo: 'PROD006', nombre: 'Mouse Gaming', categoria: 'Accesorios', cantidad: 40, precio: 75.00 },
+        { _id: '7', codigo: 'PROD007', nombre: 'Tablet 10"', categoria: 'Electrónicos', cantidad: 20, precio: 350.00 },
+        { _id: '8', codigo: 'PROD008', nombre: 'Cámara Digital', categoria: 'Electrónicos', cantidad: 8, precio: 800.00 }
+      ];
       
-      setProducts(response.data);
+      setProducts(simulatedProducts);
       setError('');
     } catch (err) {
       console.error('Error al cargar productos:', err);
