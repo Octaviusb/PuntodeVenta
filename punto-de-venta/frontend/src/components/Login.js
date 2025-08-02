@@ -42,19 +42,7 @@ function Login() {
         return;
       }
       
-      // Intentar backend como fallback
-      try {
-        const response = await axios.post(`${config.apiUrl}/users/login`, {
-          email, password
-        }, { timeout: 5000 });
-        
-        setMessage('Login exitoso');
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        navigate('/dashboard');
-      } catch (backendError) {
-        setError('Credenciales incorrectas o servidor no disponible');
-      }
+      setError('Credenciales incorrectas. Use: admin@admin.com / admin123 o obuitragocamelo@yaho.es');
       
     } catch (err) {
       console.error('Error completo de login:', err);
