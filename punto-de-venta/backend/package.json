@@ -1,10 +1,10 @@
 {
   "name": "punto-de-venta-backend",
   "version": "1.0.0",
-  "main": "server-clean.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node server-clean.js",
-    "dev": "nodemon server-clean.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "express": "^4.18.2",
